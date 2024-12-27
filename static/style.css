@@ -3,6 +3,7 @@
 	margin: 2% 1% 0% 2%;
 	color: #445;
 	max-width:100%;
+	width:100%;
 }
 
 button{
@@ -17,7 +18,7 @@ body {
 
 footer{
 	background-color: #A78D8B;
-    	border-radius: 15px 0px 0px 0px;
+    	border-radius: 0px 15px 0px 0px;
 	padding: 5px;
 	margin:0;
 	width:auto;
