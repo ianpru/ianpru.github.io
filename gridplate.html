@@ -160,7 +160,7 @@ function two2(){
 	mySpreadsheet = $('#spreadsheet').jspreadsheet(options);
 	lastOpened = 96;
 	if (AllData.getColumnData(1).length != 96){
-		jexcel.destroy(document.getElementById('CurTable'));
+		jspreadsheet.destroy(document.getElementById('CurTable'));
 		AllData = jspreadsheet(document.getElementById('CurTable'), {
 			csv:"static/96Well.csv",
 			csvHeaders:true,
@@ -255,7 +255,7 @@ function three3(){
 	mySpreadsheet = $('#spreadsheet').jspreadsheet(options1);
 	lastOpened = 384;
 	if (AllData.getColumnData(1).length != 384){
-		jexcel.destroy(document.getElementById('CurTable'));
+		jspreadsheet.destroy(document.getElementById('CurTable'));
 		AllData = jspreadsheet(document.getElementById('CurTable'), {
 			csv:"static/384Well.csv",
 			csvHeaders:true,
@@ -406,7 +406,7 @@ function four4(){
 	mySpreadsheet = $('#spreadsheet').jspreadsheet(options2);
 	lastOpened = 1536;
 	if (AllData.getColumnData(1).length != 1536){
-		jexcel.destroy(document.getElementById('CurTable'));
+		jspreadsheet.destroy(document.getElementById('CurTable'));
 		AllData = jspreadsheet(document.getElementById('CurTable'), {
 			csv:"static/1536Well.csv",
 			csvHeaders:true,
