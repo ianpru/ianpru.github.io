@@ -6,33 +6,32 @@
 <link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
 <script src="https://jsuites.net/v4/jsuites.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
-{% load static %}
-<link rel="stylesheet" href="{% static 'polls/style.css' %}">
+<link rel="stylesheet" href="static/style.css">
 
 <head>
-
+<title>selection</title>
 </head>
 
 
 
 <body>
 <div class="header">
-  <a href="/polls/homepage/" class="logo">Homepage</a>
+  <a href="/index/" class="logo">Homepage</a>
   <div class="header-right">
-    <a href="/polls/gridplate/">Grid Plate</a>
-    <a href="/polls/selection/">Control Selection</a>
-    <a class="active" href="/polls/anyselect/">Any Selection</a>
+    <a href="/gridplate/">Grid Plate</a>
+    <a class="active" href="/selection/">Control Selection</a>
+    <a href="/anyselect/">Any Selection</a>
   </div>
 </div>
 
 <div class="mainbody">
-<h2>Any Select Tool</h2>
+<h2>Control Selection Tool</h2>
 
 <button type="button" class="collapsible">
 Instructions</button>
 <div class="content">
 	<p>1. Click on the button for the plate size you want to load (96, 384, 1536) </p>
-	<p>2. Input the value you want to add in the text box</p>
+	<p>2. Choose the control label to add (Empty will remove labels for selected wells) </p>
 	<p>3. On the plate map select areas and the control will automatically be applied </p>
 	<p>4. Repeat steps 2 and 3 until all control data has been added </p>
 	<p>5. Click Save Data to download as a .csv </p>
@@ -44,11 +43,16 @@ Instructions</button>
 <input id="b3" type="button" value="Load 384 Well Plate" onclick="three3();" />
 <input id="b4" type="button" value="Load 1536 Well Plate" onclick="four4();" />
 </p>
-<p>Input Label to Add:</p>
+<p>Select Control to Add:</p>
 <p>
-<input id='input' type='text' value='Add Value Here' />
-<input id="b4" type="button" value="Reset Grid" onclick="seven7();" />
-
+<select id='input' onclick='one1();'>
+<option value="Positive">Positive</option>
+<option value="Negative">Negative</option>
+<option value="Standard Curve">Standard Curve</option>
+<option value="Blank">Blank</option>
+<option value="Spike-In">Spike-In</option>
+<option value="Empty">Empty</option>
+</select>
 </p>
 <input id="b2" type="button" value="Save Data" onclick="two2();" />
 </div>
@@ -67,16 +71,14 @@ Instructions</button>
 
 <script>
 var color1 = '#394053';
+var posColor = '#C08497';
+var negColor = '#B0D0D3';
+var stdColor = 'EDAE49';
+var color1Light = '#c2a5cf';
 var cur_add = "Positive";
 var cur_color = '#C08497';
-colors = ['#C08497', '#B0D0D3', '#EDAE49', '#c2a5cf', '#4B3B47', '#2A7F62', 'A09CB0', 'ABDAE1', '476A6F', 'ECBEB4', 'C6E2E9', 'BDD9BF', 'F4FDAF', '330F0A', '90E0EF', 'CAF0F8', '985277', '5C374C', '474973', '489FB5', 'FFF3F0', 'A93F55', 'FEFADC', '8C5E58', '26547C', 'FF6B6B', '4ECDC4', '7D80DA', '250001', 'F6D8AE'];
-color_num = 0;
-input_adds = [];
-data_type_back = ["Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               "];
-data_type384_back=["Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               "];
-data_type1536_back=["Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               "];
-
-
+var blkColor = '#4B3B47';
+var spiColor = '#2A7F62';
 var excel = 96;
 
 
@@ -85,7 +87,6 @@ TESTER = document.getElementById('tester');
 const yArray =["A","A","A","A","A","A","A","A","A","A","A","A","B","B","B","B","B","B","B","B","B","B","B","B","C","C","C","C","C","C","C","C","C","C","C","C","D","D","D","D","D","D","D","D","D","D","D","D","E","E","E","E","E","E","E","E","E","E","E","E","F","F","F","F","F","F","F","F","F","F","F","F","G","G","G","G","G","G","G","G","G","G","G","G","H","H","H","H","H","H","H","H","H","H","H","H"];
 const xArray =[1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12];
 var data_type = ["Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               ","Empty               "];
-
 const data = [{
   x: xArray,
   y: yArray,
@@ -98,6 +99,11 @@ const data = [{
 	groups: data_type,
 	styles: [
 	  {target: "Empty               ", value: {marker:{color: color1}}},
+	  {target: "Positive", value: {marker:{color: posColor}}},
+	  {target: "Negative", value: {marker:{color: negColor}}},
+	  {target: "Standard Curve", value: {marker:{color: stdColor}}},
+	  {target: "Blank", value: {marker:{color: blkColor}}},
+	  {target: "Spike-In", value: {marker:{color: spiColor}}},
 	]
 	}
 	]
@@ -133,6 +139,11 @@ const data384 = [{
 	groups: data_type384,
 	styles: [
 	  {target: "Empty               ", value: {marker:{color: color1}}},
+	  {target: "Positive", value: {marker:{color: posColor}}},
+	  {target: "Negative", value: {marker:{color: negColor}}},
+	  {target: "Standard Curve", value: {marker:{color: stdColor}}},
+	  {target: "Blank", value: {marker:{color: blkColor}}},
+	  {target: "Spike-In", value: {marker:{color: spiColor}}},
 	]
 	}
 	]
@@ -169,6 +180,11 @@ const data1536 = [{
 	groups: data_type1536,
 	styles: [
 	  {target: "Empty               ", value: {marker:{color: color1}}},
+	  {target: "Positive", value: {marker:{color: posColor}}},
+	  {target: "Negative", value: {marker:{color: negColor}}},
+	  {target: "Standard Curve", value: {marker:{color: stdColor}}},
+	  {target: "Blank", value: {marker:{color: blkColor}}},
+	  {target: "Spike-In", value: {marker:{color: spiColor}}},
 	]
 	}
 	]
@@ -197,134 +213,74 @@ function five5(){
 	document.getElementById('384plot').style.display = "none";
 	document.getElementById('1536plot').style.display = "none";
 	excel = 96;
-	color_num = 0;
-	input_adds = [];
-	cur_color = '#C08497';	
 };
 function three3(){
 	document.getElementById('tester').style.display = "none";
 	document.getElementById('384plot').style.display = "block";
 	document.getElementById('1536plot').style.display = "none";
 	excel = 384;
-	color_num = 0;
-	input_adds = [];
-	cur_color = '#C08497';	
 };
 function four4(){
 	document.getElementById('tester').style.display = "none";
 	document.getElementById('384plot').style.display = "none";
 	document.getElementById('1536plot').style.display = "block";
-	excel = 1536
-	color_num = 0;
-	input_adds = [];
-	cur_color = '#C08497';	
+	excel = 1536;
 };
 
 
-function seven7(){
-	if (excel == 96) {
-		data_type = structuredClone(data_type_back);
-		TESTER.data[0].transforms[0].groups = data_type;
-		Plotly.restyle(TESTER, {'marker':{color: color1, symbol:"square", size:17}});
-		color_num = 0;
-		input_adds = [];
-	} else if (excel == 384) {
-		data_type384 = structuredClone(data_type384_back);
-		plot384.data[0].transforms[0].groups = data_type384;
-		Plotly.restyle(plot384, {'marker':{color: color1, symbol:"square", size:17}});
-		color_num = 0;
-		input_adds = [];
-	} else if (excel == 1536) {
-		data_type1536 = structuredClone(data_type1536_back);
-		plot1536.data[0].transforms[0].groups = data_type1536;
-		Plotly.restyle(plot1536, {'marker':{color: color1, symbol:"square", size:17}});
-		color_num = 0;
-		input_adds = [];
-	}
-}
-
-
 // Coloring statements
-// 96 plotter
 TESTER.on('plotly_selected', function(eventData) {
-  cur_add = document.getElementById('input').value
-  if (input_adds.includes(cur_add)){
-	add_num = input_adds.indexOf(cur_add);
-    eventData.points.forEach(function(pt) {
-      data_type[pt.pointIndex] = cur_add;
-    });
-    var update = {'marker':{color: cur_color, symbol:"square", size:17}};
-    Plotly.restyle(TESTER, update);
-  } else{
-	add_num = color_num;
-	color_num = color_num + 1;
-	input_adds.push(cur_add);
-	cur_color = colors[add_num];
-    eventData.points.forEach(function(pt) {
-      console.log(pt.pointIndex)
-      data_type[pt.pointIndex] = cur_add;
-    });
-    var update = {'marker':{color: cur_color, symbol:"square", size:17}};
-	// Manually updating the styles because I was running into issues passing them through the restyle method
-	//trace data (I only have one trace)
-	TESTER.data[0].transforms[0].styles.push({target: cur_add, value: {marker:{color: cur_color}}});
-    Plotly.restyle(TESTER, update); 
-  }
+  eventData.points.forEach(function(pt) {
+    console.log(pt.pointIndex)
+    data_type[pt.pointIndex] = cur_add;
+  });
+  var update = {'marker':{color: cur_color, symbol:"square", size:17}}
+  Plotly.restyle(TESTER, update)
 });
 
-//384 plotter
 plot384.on('plotly_selected', function(eventData) {
-  cur_add = document.getElementById('input').value
-  if (input_adds.includes(cur_add)){
-	add_num = input_adds.indexOf(cur_add);
-    eventData.points.forEach(function(pt) {
-      data_type384[pt.pointIndex] = cur_add;
-    });
-    var update = {'marker':{color: cur_color, symbol:"square", size:17}};
-    Plotly.restyle(plot384, update);
-  } else{
-	add_num = color_num;
-	color_num = color_num + 1;
-	input_adds.push(cur_add);
-	cur_color = colors[add_num];
-    eventData.points.forEach(function(pt) {
-      data_type384[pt.pointIndex] = cur_add;
-    });
-    var update = {'marker':{color: cur_color, symbol:"square", size:17}};
-	// Manually updating the styles because I was running into issues passing them through the restyle method
-	//trace data (I only have one trace)
-	plot384.data[0].transforms[0].styles.push({target: cur_add, value: {marker:{color: cur_color}}});
-    Plotly.restyle(plot384, update); 
-  }
+  eventData.points.forEach(function(pt) {
+    console.log(pt.pointIndex)
+    data_type384[pt.pointIndex] = cur_add;
+  });
+  var update = {'marker':{color: cur_color, symbol:"square", size:17}}
+  Plotly.restyle(plot384, update)
 });
 
-//1536 plotter
 plot1536.on('plotly_selected', function(eventData) {
-  cur_add = document.getElementById('input').value
-  if (input_adds.includes(cur_add)){
-	add_num = input_adds.indexOf(cur_add);
-    eventData.points.forEach(function(pt) {
-      data_type1536[pt.pointIndex] = cur_add;
-    });
-    var update = {'marker':{color: cur_color, symbol:"square", size:17}};
-    Plotly.restyle(plot1536, update);
-  } else{
-	add_num = color_num;
-	color_num = color_num + 1;
-	input_adds.push(cur_add);
-	cur_color = colors[add_num];
-    eventData.points.forEach(function(pt) {
-      data_type1536[pt.pointIndex] = cur_add;
-    });
-    var update = {'marker':{color: cur_color, symbol:"square", size:17}};
-	// Manually updating the styles because I was running into issues passing them through the restyle method
-	//trace data (I only have one trace)
-	plot1536.data[0].transforms[0].styles.push({target: cur_add, value: {marker:{color: cur_color}}});
-    Plotly.restyle(plot1536, update); 
-  }
+  eventData.points.forEach(function(pt) {
+    console.log(pt.pointIndex)
+    data_type1536[pt.pointIndex] = cur_add;
+  });
+  var update = {'marker':{color: cur_color, symbol:"square", size:17}}
+  Plotly.restyle(plot1536, update)
 });
 
 
+// Set Color and Value to add
+function one1() {
+	control = document.getElementById('input').value
+	if (control == 'Positive'){
+		cur_add = "Positive";
+		cur_color = '#C08497';
+	} else if (control == 'Negative'){
+		cur_add = "Negative";
+		cur_color = '#B0D0D3';
+	} else if (control == 'Standard Curve'){
+		cur_add = "Standard Curve";
+		cur_color = 'EDAE49';
+	} else if (control == 'Empty'){
+		cur_add = "Empty               ";
+		cur_color = '#394053';
+	} else if (control == 'Blank'){
+		cur_add = "Blank";
+		cur_color = '#4B3B47';
+	} else if (control == 'Spike-In'){
+		cur_add = "Spike-In";
+		cur_color = '#2A7F62';
+	}
+
+}
 
 function zip(arrays) {
     return arrays[0].map(function(_,i){
