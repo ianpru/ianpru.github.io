@@ -42,7 +42,7 @@ Instructions</button>
 
 <div id="mainSection">
 
-1
+2
 <p></p>
 <p>
 <input id="b2" type="button" value="Load 96 Well Plate" onclick="two2();" />
@@ -88,7 +88,7 @@ Please input column number to remove:
 document.addEventListener('DOMContentLoaded', function() {
     //document.getElementById('CurTable').style.visibility = 'hidden';
 	document.getElementById('CurTable').style.display = 'none';
-	//document.getElementById('b2').click();
+	document.getElementById('b2').click();
 });
 
 
@@ -107,7 +107,6 @@ AllData = jspreadsheet(document.getElementById('CurTable'), {
 
 //document.getElementById('test').innerHTML = document.getElementById('96WellRaw').value;
 function two2(){
-	/*
 	var data = [
 		[,,,,,,,,,,,],
 		[,,,,,,,,,,,],
@@ -157,7 +156,7 @@ function two2(){
 			{title:'H'},
 		],	
 	}
-	jexcel.destroy(document.getElementById('spreadsheet'));
+	jspreadsheet.destroy(document.getElementById('spreadsheet'));
 	mySpreadsheet = $('#spreadsheet').jspreadsheet(options);
 	lastOpened = 96;
 	if (AllData.getColumnData(1).length != 96){
@@ -172,8 +171,6 @@ function two2(){
 			defaultColWidth: 100,
 		});
 	}
- 	*/
-	console.log(57);
  };
  
 function three3(){
@@ -254,7 +251,7 @@ function three3(){
 			{title:'P'},
 		],	
 	}
-	jexcel.destroy(document.getElementById('spreadsheet'));
+	jspreadsheet.destroy(document.getElementById('spreadsheet'));
 	mySpreadsheet = $('#spreadsheet').jspreadsheet(options1);
 	lastOpened = 384;
 	if (AllData.getColumnData(1).length != 384){
@@ -405,7 +402,7 @@ function four4(){
 			{title:'AG'},
 		],	
 	}
-	jexcel.destroy(document.getElementById('spreadsheet'));
+	jspreadsheet.destroy(document.getElementById('spreadsheet'));
 	mySpreadsheet = $('#spreadsheet').jspreadsheet(options2);
 	lastOpened = 1536;
 	if (AllData.getColumnData(1).length != 1536){
