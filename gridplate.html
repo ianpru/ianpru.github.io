@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
 <script src="https://jsuites.net/v4/jsuites.js"></script>
 
+<link rel="stylesheet" href="static/style.css">
+
 <head>
 <title>gridplate</title>
 </head>
@@ -84,7 +86,7 @@ Please input column number to remove:
 document.addEventListener('DOMContentLoaded', function() {
     //document.getElementById('CurTable').style.visibility = 'hidden';
 	document.getElementById('CurTable').style.display = 'none';
-	document.getElementById('b2').click();
+	//document.getElementById('b2').click();
 });
 
 
@@ -100,14 +102,6 @@ AllData = jspreadsheet(document.getElementById('CurTable'), {
 	allowExport: true,
 	defaultColWidth: 80,
 });
-
-/*
-AllData = jspreadsheet(document.getElementById('CurTable'), {
-	csv:"{% static 'polls/1536Well.csv' %}",
-	csvHeaders:true
-	lazyLoading:true,
-});
-*/
 
 //document.getElementById('test').innerHTML = document.getElementById('96WellRaw').value;
 function two2(){
@@ -444,7 +438,7 @@ function flattenArray(arr) {
     }
 
     return result;
-}
+};
 
 function five5(){
 	var new_data = mySpreadsheet.getData();
