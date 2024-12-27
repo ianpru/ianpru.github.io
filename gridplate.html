@@ -1,0 +1,515 @@
+<html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ 
+<script src="https://bossanova.uk/jspreadsheet/v4/jexcel.js"></script>
+<link rel="stylesheet" href="https://bossanova.uk/jspreadsheet/v4/jexcel.css" type="text/css" />
+<link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
+<script src="https://jsuites.net/v4/jsuites.js"></script>
+
+<link rel="stylesheet" href="static/style.css">
+
+<head>
+<title>gridplate</title>
+</head>
+
+
+<body>
+<div class="header">
+  <a href="/" class="logo">Homepage</a>
+  <div class="header-right">
+    <a class="active" href="/gridplate">Grid Plate</a>
+    <a href="/selection">Control Selection</a>
+    <a href="/anyselect">Any Selection</a>
+  </div>
+</div>
+
+<div class="mainbody">
+<h2>Grid Plate Editor</h2>
+
+<button type="button" class="collapsible">
+Instructions</button>
+<div class="content">
+	<p>1. Click on the button for the plate size you want to load (96, 384, 1536) </p>
+	<p>2. Paste or type plate map into the loaded plate grid </p>
+	<p>3. Add column name in text box and click Add Column button </p>
+	<p>4. Click View Output Data Table checkbox to confirm data has appeared (this will show up below the plate)</p>
+	<p>5. Repeat steps 2 and 3 until all plate map data has been added </p>
+	<p>6. Click Download As .CSV button to download the column-wise data </p>
+	<p>To remove columns put the number of the column you want to remove and hit enter </p>
+</div>
+
+
+
+<div id="mainSection">
+<p></p>
+<p>
+<input id="b2" type="button" value="Load 96 Well Plate" onclick="two2();" />
+<input id="b3" type="button" value="Load 384 Well Plate" onclick="three3();" />
+<input id="b4" type="button" value="Load 1536 Well Plate" onclick="four4();" />
+</p>
+<p><b>Add and Remove Columns </b></p>
+<p>
+<input id="plateName" type="text" value="Column Name Here"/>
+            
+<input id="b5" type="button" value="Add Column" onclick="five5();" />
+</p>
+<p>
+Please input column number to remove:
+<input id="removeNumber" type="number"/>
+</p>
+<p><b>View and Save Data</b></p>
+<p>
+<input type="checkbox" id="viewTable" onclick="eight8()">
+<label for="viewTable">View Output Data Table? (Will Show Up Below Grid Plates)</label><br></p>
+<p>
+<input id="b7" type="button" value="Download As .CSV" onclick="seven7();" />
+</p>
+</div>
+
+<p></p>
+
+<div id="spreadsheet"></div>
+<p id='test'></p>
+ 
+<div>
+<div id="CurTable"></div>
+</div>
+</div>
+</body>
+
+<footer>
+	<p>&copy; 2024 Ian Proulx. All rights reserved.</p>
+</footer>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    //document.getElementById('CurTable').style.visibility = 'hidden';
+	document.getElementById('CurTable').style.display = 'none';
+	document.getElementById('b2').click();
+});
+
+
+var lastOpened = 0;
+//will want to move this to run only when I load the individual functions
+//maybe add a reset background table button or something
+AllData = jspreadsheet(document.getElementById('CurTable'), {
+	csv:"static/96Well.csv",
+	csvHeaders:true,
+	lazyLoading:true,
+	includeHeadersOnDownload:true,
+	csvFileName: 'PlateMaps',
+	allowExport: true,
+	defaultColWidth: 80,
+});
+
+/*
+AllData = jspreadsheet(document.getElementById('CurTable'), {
+	csv:"{% static 'polls/1536Well.csv' %}",
+	csvHeaders:true
+	lazyLoading:true,
+});
+*/
+
+//document.getElementById('test').innerHTML = document.getElementById('96WellRaw').value;
+function two2(){
+	
+	var data = [
+		[,,,,,,,,,,,],
+		[,,,,,,,,,,,],
+		[,,,,,,,,,,,],
+		[,,,,,,,,,,,],
+		[,,,,,,,,,,,],
+		[,,,,,,,,,,,],
+		[,,,,,,,,,,,],
+		[,,,,,,,,,,,],
+	];
+	var options = {
+		data:data,
+		allowInsertColumn:false,
+		allowInsertRow:false,
+		allowDeleteColumn:false,
+		allowDeleteRow:false,
+		columnDrag:false,
+		rowDrag:false,
+		columnResize:false,
+		rowResize:false,
+
+		columns:[
+			{title:'1', width:60},
+			{title:'2', width:60},
+			{title:'3', width:60},
+			{title:'4', width:60},
+			{title:'5', width:60},
+			{title:'6', width:60},
+			{title:'7', width:60},
+			{title:'8', width:60},
+			{title:'9', width:60},
+			{title:'10', width:60},
+			{title:'11', width:60},
+			{title:'12', width:60},
+		],
+		nestedHeaders:[
+			{title: '96 Well Plate', colspan:'12'},
+		],
+		rows:[
+			{title:'A'},
+			{title:'B'},
+			{title:'C'},
+			{title:'D'},
+			{title:'E'},
+			{title:'F'},
+			{title:'G'},
+			{title:'H'},
+		],	
+	}
+	jexcel.destroy(document.getElementById('spreadsheet'));
+	mySpreadsheet = $('#spreadsheet').jspreadsheet(options);
+	lastOpened = 96;
+	if (AllData.getColumnData(1).length != 96){
+		jexcel.destroy(document.getElementById('CurTable'));
+		AllData = jspreadsheet(document.getElementById('CurTable'), {
+			csv:"static/96Well.csv",
+			csvHeaders:true,
+			lazyLoading:true,
+			includeHeadersOnDownload:true,
+			csvFileName: 'PlateMaps',
+			allowExport: true,
+			defaultColWidth: 100,
+		});
+	}
+ }
+ 
+function three3(){
+	var data1 = [
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,],
+	];
+	var options1 = {
+		data:data1,
+		allowInsertColumn:false,
+		allowInsertRow:false,
+		allowDeleteColumn:false,
+		allowDeleteRow:false,
+		columnDrag:false,
+		rowDrag:false,
+		columnResize:false,
+		rowResize:false,
+
+		columns:[
+			{title:'1', width:40},
+			{title:'2', width:40},
+			{title:'3', width:40},
+			{title:'4', width:40},
+			{title:'5', width:40},
+			{title:'6', width:40},
+			{title:'7', width:40},
+			{title:'8', width:40},
+			{title:'9', width:40},
+			{title:'10', width:40},
+			{title:'11', width:40},
+			{title:'12', width:40},
+			{title:'13', width:40},
+			{title:'14', width:40},
+			{title:'15', width:40},
+			{title:'16', width:40},
+			{title:'17', width:40},
+			{title:'18', width:40},
+			{title:'19', width:40},
+			{title:'20', width:40},
+			{title:'21', width:40},
+			{title:'22', width:40},
+			{title:'23', width:40},
+			{title:'24', width:40},
+		],
+		nestedHeaders:[
+			{title: '384 Well Plate', colspan:'24'},
+		],
+		rows:[
+			{title:'A'},
+			{title:'B'},
+			{title:'C'},
+			{title:'D'},
+			{title:'E'},
+			{title:'F'},
+			{title:'G'},
+			{title:'H'},
+			{title:'I'},
+			{title:'J'},
+			{title:'K'},
+			{title:'L'},
+			{title:'M'},
+			{title:'N'},
+			{title:'O'},
+			{title:'P'},
+		],	
+	}
+	jexcel.destroy(document.getElementById('spreadsheet'));
+	mySpreadsheet = $('#spreadsheet').jspreadsheet(options1);
+	lastOpened = 384;
+	if (AllData.getColumnData(1).length != 384){
+		jexcel.destroy(document.getElementById('CurTable'));
+		AllData = jspreadsheet(document.getElementById('CurTable'), {
+			csv:"static/384Well.csv",
+			csvHeaders:true,
+			lazyLoading:true,
+			includeHeadersOnDownload:true,
+			csvFileName: 'PlateMaps',
+			allowExport: true,
+			defaultColWidth: 100,
+		});
+	}
+}
+ 
+function four4(){
+	var data2 = [
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+		[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
+	];
+	var options2 = {
+		data:data2,
+		allowInsertColumn:false,
+		allowInsertRow:false,
+		allowDeleteColumn:false,
+		allowDeleteRow:false,
+		columnDrag:false,
+		rowDrag:false,
+		columnResize:false,
+		rowResize:false,
+
+		columns:[
+			{title:'1', width:40},
+			{title:'2', width:40},
+			{title:'3', width:40},
+			{title:'4', width:40},
+			{title:'5', width:40},
+			{title:'6', width:40},
+			{title:'7', width:40},
+			{title:'8', width:40},
+			{title:'9', width:40},
+			{title:'10', width:40},
+			{title:'11', width:40},
+			{title:'12', width:40},
+			{title:'13', width:40},
+			{title:'14', width:40},
+			{title:'15', width:40},
+			{title:'16', width:40},
+			{title:'17', width:40},
+			{title:'18', width:40},
+			{title:'19', width:40},
+			{title:'20', width:40},
+			{title:'21', width:40},
+			{title:'22', width:40},
+			{title:'23', width:40},
+			{title:'24', width:40},
+			{title:'25', width:40},
+			{title:'26', width:40},
+			{title:'27', width:40},
+			{title:'28', width:40},
+			{title:'29', width:40},
+			{title:'30', width:40},
+			{title:'31', width:40},
+			{title:'32', width:40},
+			{title:'33', width:40},
+			{title:'34', width:40},
+			{title:'35', width:40},
+			{title:'36', width:40},
+			{title:'37', width:40},
+			{title:'38', width:40},
+			{title:'39', width:40},
+			{title:'40', width:40},
+			{title:'41', width:40},
+			{title:'42', width:40},
+			{title:'43', width:40},
+			{title:'44', width:40},
+			{title:'45', width:40},
+			{title:'46', width:40},
+			{title:'47', width:40},
+			{title:'48', width:40},
+		],
+		nestedHeaders:[
+			{title: '1536 Well Plate', colspan:'48'},
+		],
+		rows:[
+			{title:'A'},
+			{title:'B'},
+			{title:'C'},
+			{title:'D'},
+			{title:'E'},
+			{title:'F'},
+			{title:'G'},
+			{title:'H'},
+			{title:'I'},
+			{title:'J'},
+			{title:'K'},
+			{title:'L'},
+			{title:'M'},
+			{title:'N'},
+			{title:'O'},
+			{title:'P'},
+			{title:'Q'},
+			{title:'R'},
+			{title:'S'},
+			{title:'T'},
+			{title:'U'},
+			{title:'V'},
+			{title:'W'},
+			{title:'X'},
+			{title:'Y'},
+			{title:'Z'},
+			{title:'AB'},
+			{title:'AC'},
+			{title:'AD'},
+			{title:'AE'},
+			{title:'AF'},
+			{title:'AG'},
+		],	
+	}
+	jexcel.destroy(document.getElementById('spreadsheet'));
+	mySpreadsheet = $('#spreadsheet').jspreadsheet(options2);
+	lastOpened = 1536;
+	if (AllData.getColumnData(1).length != 1536){
+		jexcel.destroy(document.getElementById('CurTable'));
+		AllData = jspreadsheet(document.getElementById('CurTable'), {
+			csv:"static/1536Well.csv",
+			csvHeaders:true,
+			lazyLoading:true,
+			includeHeadersOnDownload:true,
+			csvFileName: 'PlateMaps',
+			allowExport: true,
+			defaultColWidth: 100,
+		});
+	}
+};
+
+function flattenArray(arr) {
+    let result = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        if (Array.isArray(arr[i])) {
+        
+            // If element is an array,
+            //  recursively flatten it
+            result = result
+                .concat(flattenArray(arr[i]));
+        } else {
+        
+            // Otherwise add the element 
+            // to the flattened array
+            result
+                .push(arr[i]);
+        }
+    }
+
+    return result;
+}
+
+function five5(){
+	var new_data = mySpreadsheet.getData();
+	
+	colName = document.getElementById('plateName').value;
+	//document.getElementById('test').innerHTML = colName.length;
+	if (colName.length > 0){
+		AllData.insertColumn(flattenArray(new_data),-1,false,{title:colName});
+	} else{
+		AllData.insertColumn(flattenArray(new_data));
+	}
+		
+	
+};	
+
+var removeCol = document.getElementById("removeNumber");
+removeCol.addEventListener("keypress", function(event){
+	//AllData.moveColumn(document.getElementById('removeNumber').value-1, -1)
+	/*
+		Have to use the numbers because AllHeaders returns as a string instead of a list
+		so would have to search through that after converting to a list which would be a pain
+	*/
+	if (event.key == "Enter") {
+		AllData.deleteColumn(document.getElementById('removeNumber').value-1);
+	}
+	
+});
+
+function eight8() {
+	
+	if (document.getElementById('viewTable').checked){
+		document.getElementById('CurTable').style.display = 'block';
+	} else {
+		document.getElementById('CurTable').style.display = 'none';
+	}
+	/*
+	document.getElementById('CurTable').style.visibility = visible
+	*/
+	
+};
+
+
+function seven7(){
+	AllData.download(true, false);
+};
+
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+ 
+</script>
+
+
+
+</html>
