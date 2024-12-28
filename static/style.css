@@ -1,6 +1,7 @@
 .mainbody {
 	/*background-color: #f3f8f2;*/
 	margin: 2% 1% 0% 0%;
+	padding: 2% 0% 0% 0%;
 	color: #445;
 	max-width:100%;
 	width:100%;
@@ -25,21 +26,10 @@ footer{
 	width:auto;
 }
 
-@property --_w {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 10vw; 
-}
-@property --_h {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 10vh; 
-}
-
 .myimg{
 	border-radius: 50%;
-	height: tan(atan2(var(--_h),1px));
-	width: tan(atan2(var(--_w),1px));
+	height: 150px;
+	width: 150px;
 	position: absolute;
 	top: 30%;
 }
