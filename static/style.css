@@ -25,10 +25,21 @@ footer{
 	width:auto;
 }
 
+@property --_w {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 100vw; 
+}
+@property --_h {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 100vh; 
+}
+
 .myimg{
 	border-radius: 50%;
-	height: 8%;
-	width: 8%;
+	height: tan(atan2(var(--_h),1px));
+	width: tan(atan2(var(--_w),1px));
 	position: absolute;
 	top: 30%;
 }
