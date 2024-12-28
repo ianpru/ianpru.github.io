@@ -1,7 +1,6 @@
 .mainbody {
 	/*background-color: #f3f8f2;*/
-	margin: 2% 1% 0% 0%;
-	padding: 2% 0% 0% 0%;
+	margin: 2% 0% 0% 2%;
 	color: #445;
 	max-width:100%;
 	width:100%;
@@ -28,8 +27,8 @@ footer{
 
 .myimg{
 	border-radius: 50%;
-	height: 150px;
-	width: 150px;
+	width: 10%;
+	aspect-ratio: 1/1;
 	position: absolute;
 	top: 30%;
 }
