@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="static/style.css">
 
 <head>
+<! Need the title to give the webpage a nice name-->
 <title>selection</title>
 </head>
 
@@ -57,6 +58,7 @@ Instructions</button>
 <input id="b2" type="button" value="Save Data" onclick="two2();" />
 </div>
 
+<! Needed three plots because I couldn't figure out how to overwrite-->
 <div id="tester"></div>
 <div id='384plot'></div>
 <div id='1536plot'></div>
@@ -71,6 +73,7 @@ Instructions</button>
 </footer>
 
 <script>
+// All the colors for the controls we can add
 var color1 = '#394053';
 var posColor = '#C08497';
 var negColor = '#B0D0D3';
@@ -82,7 +85,7 @@ var blkColor = '#4B3B47';
 var spiColor = '#2A7F62';
 var excel = 96;
 
-
+// Get the plots and layouts going for all 3 plate maps
 // Define 96 Well Data
 TESTER = document.getElementById('tester');
 const yArray =["A","A","A","A","A","A","A","A","A","A","A","A","B","B","B","B","B","B","B","B","B","B","B","B","C","C","C","C","C","C","C","C","C","C","C","C","D","D","D","D","D","D","D","D","D","D","D","D","E","E","E","E","E","E","E","E","E","E","E","E","F","F","F","F","F","F","F","F","F","F","F","F","G","G","G","G","G","G","G","G","G","G","G","G","H","H","H","H","H","H","H","H","H","H","H","H"];
@@ -208,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	document.getElementById('1536plot').style.display = "none";
 });
 
-
+// Functions to show and hide the correct plate maps depending on user input
 function five5(){
 	document.getElementById('tester').style.display = "block";
 	document.getElementById('384plot').style.display = "none";
@@ -229,7 +232,7 @@ function four4(){
 };
 
 
-// Coloring statements
+// Coloring statements for all 3 plots
 TESTER.on('plotly_selected', function(eventData) {
   eventData.points.forEach(function(pt) {
     console.log(pt.pointIndex)
@@ -283,6 +286,7 @@ function one1() {
 
 }
 
+// two cleanup functions to pass data through before saving it with jspreadsheet
 function zip(arrays) {
     return arrays[0].map(function(_,i){
         return arrays.map(function(array){return array[i]})
@@ -322,6 +326,7 @@ AllData.download(true, false);
 document.getElementById('CurTable').style.display = 'none';
 }
 
+// Collapsible code
 var coll = document.getElementsByClassName("collapsible");
 var i;
 
