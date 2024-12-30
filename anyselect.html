@@ -9,12 +9,14 @@
 <link rel="stylesheet" href="static/style.css">
 
 <head>
+<! have to have a title as what the page will be called-->
 <title>anyselect</title>
 </head>
 
 
 
 <body>
+<! Header-->
 <div class="header">
   <a href="/" class="logo">Homepage</a>
   <div class="header-right">
@@ -52,10 +54,12 @@ Instructions</button>
 <input id="b2" type="button" value="Save Data" onclick="two2();" />
 </div>
 
+<! Ended up needing 3 divs for the selection area, couldn't overwrite them-->
 <div id="tester"></div>
 <div id='384plot'></div>
 <div id='1536plot'></div>
 
+<! Tabel just for easily saving the data-->
 <div id="CurTable" hidden></div>
 </div>
 <br>
@@ -79,7 +83,7 @@ data_type1536_back=["Empty               ","Empty               ","Empty        
 
 var excel = 96;
 
-
+//First section is loading all of the divs with the correct data they need
 // Define 96 Well Data
 TESTER = document.getElementById('tester');
 const yArray =["A","A","A","A","A","A","A","A","A","A","A","A","B","B","B","B","B","B","B","B","B","B","B","B","C","C","C","C","C","C","C","C","C","C","C","C","D","D","D","D","D","D","D","D","D","D","D","D","E","E","E","E","E","E","E","E","E","E","E","E","F","F","F","F","F","F","F","F","F","F","F","F","G","G","G","G","G","G","G","G","G","G","G","G","H","H","H","H","H","H","H","H","H","H","H","H"];
@@ -186,12 +190,13 @@ const layout1536 = {
 };
 Plotly.newPlot(plot1536, data1536, layout1536);
 
+// This immediately sets the 384 and 1536 data to be hidden
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('384plot').style.display = "none";
 	document.getElementById('1536plot').style.display = "none";
 });
 
-
+// Set of functions that hide two of the selection grids and show the other one depending on what the user wants
 function five5(){
 	document.getElementById('tester').style.display = "block";
 	document.getElementById('384plot').style.display = "none";
@@ -220,7 +225,7 @@ function four4(){
 	cur_color = '#C08497';	
 };
 
-
+// This resets the grids to be all empty if the user wants to start over
 function seven7(){
 	if (excel == 96) {
 		data_type = structuredClone(data_type_back);
@@ -245,6 +250,8 @@ function seven7(){
 
 
 // Coloring statements
+// Colors by saving a color with a specific value so we can return to it, if a new value then it manually updates
+// the group transformations to have the new guy
 // 96 plotter
 TESTER.on('plotly_selected', function(eventData) {
   cur_add = document.getElementById('input').value
@@ -325,7 +332,7 @@ plot1536.on('plotly_selected', function(eventData) {
 });
 
 
-
+// Two cleanup functions used before saving the data using jspreadsheet
 function zip(arrays) {
     return arrays[0].map(function(_,i){
         return arrays.map(function(array){return array[i]})
@@ -365,6 +372,7 @@ AllData.download(true, false);
 document.getElementById('CurTable').style.display = 'none';
 }
 
+//Code for the collapsible
 var coll = document.getElementsByClassName("collapsible");
 var i;
 
