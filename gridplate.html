@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="static/style.css">
 
 <head>
+<! title to give the webpage a nice name-->
 <title>gridplate</title>
 </head>
 
@@ -84,6 +85,7 @@ Please input column number to remove:
 
 
 <script>
+// Hide my table with all the data on website load and also auto load the 96 well plate by clicking it's button
 document.addEventListener('DOMContentLoaded', function() {
     //document.getElementById('CurTable').style.visibility = 'hidden';
 	document.getElementById('CurTable').style.display = 'none';
@@ -104,7 +106,7 @@ AllData = jspreadsheet(document.getElementById('CurTable'), {
 	defaultColWidth: 80,
 });
 
-//document.getElementById('test').innerHTML = document.getElementById('96WellRaw').value;
+//the load functions for all of the tables, 96 well then 384 well then 1536 well
 function two2(){
 	var data = [
 		[,,,,,,,,,,,],
@@ -418,6 +420,7 @@ function four4(){
 	}
 };
 
+// cleanup function to allow the addition of columns into the data table
 function flattenArray(arr) {
     let result = [];
 
@@ -440,6 +443,7 @@ function flattenArray(arr) {
     return result;
 };
 
+// Add new columns to the data table
 function five5(){
 	var new_data = mySpreadsheet.getData();
 	
@@ -454,6 +458,7 @@ function five5(){
 	
 };	
 
+// remove a column from the data table (couldn't get it working with a column name only the column number
 var removeCol = document.getElementById("removeNumber");
 removeCol.addEventListener("keypress", function(event){
 	//AllData.moveColumn(document.getElementById('removeNumber').value-1, -1)
@@ -467,6 +472,7 @@ removeCol.addEventListener("keypress", function(event){
 	
 });
 
+// Allows the user to see the actual raw data if they want
 function eight8() {
 	
 	if (document.getElementById('viewTable').checked){
@@ -480,11 +486,12 @@ function eight8() {
 	
 };
 
-
+// Download data
 function seven7(){
 	AllData.download(true, false);
 };
 
+// Collapsible code
 var coll = document.getElementsByClassName("collapsible");
 var i;
 
