@@ -1,3 +1,4 @@
+/* Some style changes for the basic objects i'm using*/
 .mainbody {
 	/*background-color: #f3f8f2;*/
 	margin: 1% 0% 0% 0%;
@@ -26,6 +27,7 @@ footer{
 	width:auto;
 }
 
+/*Style changes for the image, header, and description divs on the homepage*/
 .myimg{
 	border-radius: 50%;
 	width: 21%;
@@ -97,7 +99,7 @@ footer{
   content: "\2796"; /* Unicode character for "minus" sign (-) */
 }
 
-/* Style the header with a grey background and some padding */
+/* Header styling */
 .header {
   overflow: hidden;
   background-color: #A78D8B;
